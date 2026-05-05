@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ErpLite.Api/ErpLite.Api.csproj" />
+    <Project Path="src/ErpLite.Application/ErpLite.Application.csproj" />
+    <Project Path="src/ErpLite.Domain/ErpLite.Domain.csproj" />
+    <Project Path="src/ErpLite.Infrastructure/ErpLite.Infrastructure.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,15 @@
+C:\projects\asp.net y angular\erp-lite\src\ErpLite.Application\obj\Debug\net10.0\ErpLite.Application.csproj.AssemblyReference.cache
+C:\projects\asp.net y angular\erp-lite\src\ErpLite.Application\obj\Debug\net10.0\ErpLite.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\projects\asp.net y angular\erp-lite\src\ErpLite.Application\obj\Debug\net10.0\ErpLite.Application.AssemblyInfoInputs.cache
+C:\projects\asp.net y angular\erp-lite\src\ErpLite.Application\obj\Debug\net10.0\ErpLite.Application.AssemblyInfo.cs
+C:\projects\asp.net y angular\erp-lite\src\ErpLite.Application\obj\Debug\net10.0\ErpLite.Application.csproj.CoreCompileInputs.cache
+C:\projects\asp.net y angular\erp-lite\src\ErpLite.Application\bin\Debug\net10.0\ErpLite.Application.deps.json
+C:\projects\asp.net y angular\erp-lite\src\ErpLite.Application\bin\Debug\net10.0\ErpLite.Application.dll
+C:\projects\asp.net y angular\erp-lite\src\ErpLite.Application\bin\Debug\net10.0\ErpLite.Application.pdb
+C:\projects\asp.net y angular\erp-lite\src\ErpLite.Application\bin\Debug\net10.0\ErpLite.Domain.dll
+C:\projects\asp.net y angular\erp-lite\src\ErpLite.Application\bin\Debug\net10.0\ErpLite.Domain.pdb
+C:\projects\asp.net y angular\erp-lite\src\ErpLite.Application\obj\Debug\net10.0\ErpLite..7C23595D.Up2Date
+C:\projects\asp.net y angular\erp-lite\src\ErpLite.Application\obj\Debug\net10.0\ErpLite.Application.dll
+C:\projects\asp.net y angular\erp-lite\src\ErpLite.Application\obj\Debug\net10.0\refint\ErpLite.Application.dll
+C:\projects\asp.net y angular\erp-lite\src\ErpLite.Application\obj\Debug\net10.0\ErpLite.Application.pdb
+C:\projects\asp.net y angular\erp-lite\src\ErpLite.Application\obj\Debug\net10.0\ref\ErpLite.Application.dll

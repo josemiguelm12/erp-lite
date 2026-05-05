@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "dgSpecHash": "5l/saJDzrRY=",
+  "success": true,
+  "projectFilePath": "C:\\projects\\asp.net y angular\\erp-lite\\src\\ErpLite.Api\\ErpLite.Api.csproj",
+  "expectedPackageFiles": [
+    "C:\\projects\\asp.net y angular\\erp-lite\\.dotnet\\.nuget\\packages\\fluentvalidation\\12.0.0\\fluentvalidation.12.0.0.nupkg.sha512",
+    "C:\\projects\\asp.net y angular\\erp-lite\\.dotnet\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\12.0.0\\fluentvalidation.dependencyinjectionextensions.12.0.0.nupkg.sha512",
+    "C:\\projects\\asp.net y angular\\erp-lite\\.dotnet\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\10.0.0\\microsoft.aspnetcore.authentication.jwtbearer.10.0.0.nupkg.sha512",
+    "C:\\projects\\asp.net y angular\\erp-lite\\.dotnet\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.0\\microsoft.aspnetcore.openapi.10.0.0.nupkg.sha512",
+    "C:\\projects\\asp.net y angular\\erp-lite\\.dotnet\\.nuget\\packages\\microsoft.entityframeworkcore\\10.0.0\\microsoft.entityframeworkcore.10.0.0.nupkg.sha512",
+    "C:\\projects\\asp.net y angular\\erp-lite\\.dotnet\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\10.0.0\\microsoft.entityframeworkcore.abstractions.10.0.0.nupkg.sha512",
+    "C:\\projects\\asp.net y angular\\erp-lite\\.dotnet\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\10.0.0\\microsoft.entityframeworkcore.analyzers.10.0.0.nupkg.sha512",
+    "C:\\projects\\asp.net y angular\\erp-lite\\.dotnet\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\10.0.0\\microsoft.entityframeworkcore.relational.10.0.0.nupkg.sha512",
+    "C:\\projects\\asp.net y angular\\erp-lite\\.dotnet\\.nuget\\packages\\microsoft.identitymodel.abstractions\\8.0.1\\microsoft.identitymodel.abstractions.8.0.1.nupkg.sha512",
+    "C:\\projects\\asp.net y angular\\erp-lite\\.dotnet\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\8.0.1\\microsoft.identitymodel.jsonwebtokens.8.0.1.nupkg.sha512",
+    "C:\\projects\\asp.net y angular\\erp-lite\\.dotnet\\.nuget\\packages\\microsoft.identitymodel.logging\\8.0.1\\microsoft.identitymodel.logging.8.0.1.nupkg.sha512",
+    "C:\\projects\\asp.net y angular\\erp-lite\\.dotnet\\.nuget\\packages\\microsoft.identitymodel.protocols\\8.0.1\\microsoft.identitymodel.protocols.8.0.1.nupkg.sha512",
+    "C:\\projects\\asp.net y angular\\erp-lite\\.dotnet\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\8.0.1\\microsoft.identitymodel.protocols.openidconnect.8.0.1.nupkg.sha512",
+    "C:\\projects\\asp.net y angular\\erp-lite\\.dotnet\\.nuget\\packages\\microsoft.identitymodel.tokens\\8.0.1\\microsoft.identitymodel.tokens.8.0.1.nupkg.sha512",
+    "C:\\projects\\asp.net y angular\\erp-lite\\.dotnet\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512",
+    "C:\\projects\\asp.net y angular\\erp-lite\\.dotnet\\.nuget\\packages\\npgsql\\10.0.0\\npgsql.10.0.0.nupkg.sha512",
+    "C:\\projects\\asp.net y angular\\erp-lite\\.dotnet\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\10.0.0\\npgsql.entityframeworkcore.postgresql.10.0.0.nupkg.sha512",
+    "C:\\projects\\asp.net y angular\\erp-lite\\.dotnet\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.0.1\\system.identitymodel.tokens.jwt.8.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
