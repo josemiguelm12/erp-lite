@@ -115,7 +115,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\projects\\asp.net y angular\\erp-lite\\.dotnet\\.nuget\\packages\\": {},
+    "C:\\Users\\moquete.jose\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
@@ -124,7 +124,7 @@
       "projectUniqueName": "C:\\projects\\asp.net y angular\\erp-lite\\src\\ErpLite.Application\\ErpLite.Application.csproj",
       "projectName": "ErpLite.Application",
       "projectPath": "C:\\projects\\asp.net y angular\\erp-lite\\src\\ErpLite.Application\\ErpLite.Application.csproj",
-      "packagesPath": "C:\\projects\\asp.net y angular\\erp-lite\\.dotnet\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\moquete.jose\\.nuget\\packages\\",
       "outputPath": "C:\\projects\\asp.net y angular\\erp-lite\\src\\ErpLite.Application\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [

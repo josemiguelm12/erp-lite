@@ -9,3 +9,4 @@ C:\projects\asp.net y angular\erp-lite\src\ErpLite.Domain\obj\Debug\net10.0\ErpL
 C:\projects\asp.net y angular\erp-lite\src\ErpLite.Domain\obj\Debug\net10.0\refint\ErpLite.Domain.dll
 C:\projects\asp.net y angular\erp-lite\src\ErpLite.Domain\obj\Debug\net10.0\ErpLite.Domain.pdb
 C:\projects\asp.net y angular\erp-lite\src\ErpLite.Domain\obj\Debug\net10.0\ref\ErpLite.Domain.dll
+C:\projects\asp.net y angular\erp-lite\src\ErpLite.Domain\obj\Debug\net10.0\ErpLite.Domain.sourcelink.json

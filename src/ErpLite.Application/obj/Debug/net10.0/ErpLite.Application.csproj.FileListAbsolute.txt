@@ -13,3 +13,4 @@ C:\projects\asp.net y angular\erp-lite\src\ErpLite.Application\obj\Debug\net10.0
 C:\projects\asp.net y angular\erp-lite\src\ErpLite.Application\obj\Debug\net10.0\refint\ErpLite.Application.dll
 C:\projects\asp.net y angular\erp-lite\src\ErpLite.Application\obj\Debug\net10.0\ErpLite.Application.pdb
 C:\projects\asp.net y angular\erp-lite\src\ErpLite.Application\obj\Debug\net10.0\ref\ErpLite.Application.dll
+C:\projects\asp.net y angular\erp-lite\src\ErpLite.Application\obj\Debug\net10.0\ErpLite.Application.sourcelink.json
