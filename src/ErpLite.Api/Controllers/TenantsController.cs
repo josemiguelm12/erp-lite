@@ -14,8 +14,8 @@ public sealed class TenantsController(ITenantService tenantService) : Controller
     [HttpPost]
     [AllowAnonymous]
     public async Task<ActionResult<TenantResponse>> Create(
-        CreateTenantRequest request,
-        IValidator<CreateTenantRequest> validator,
+        [FromBody] CreateTenantRequest request,
+        [FromServices] IValidator<CreateTenantRequest> validator,
         CancellationToken cancellationToken)
     {
         if (await validator.ToBadRequestAsync(request, cancellationToken) is { } badRequest)

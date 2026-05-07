@@ -14,8 +14,8 @@ public sealed class RolesController(IRoleService roleService) : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult<RoleResponse>> Create(
-        CreateRoleRequest request,
-        IValidator<CreateRoleRequest> validator,
+        [FromBody] CreateRoleRequest request,
+        [FromServices] IValidator<CreateRoleRequest> validator,
         CancellationToken cancellationToken)
     {
         if (await validator.ToBadRequestAsync(request, cancellationToken) is { } badRequest)
@@ -30,8 +30,8 @@ public sealed class RolesController(IRoleService roleService) : ControllerBase
     [HttpPost("{id:guid}/permissions")]
     public async Task<IActionResult> AssignPermission(
         Guid id,
-        AssignPermissionToRoleRequest request,
-        IValidator<AssignPermissionToRoleRequest> validator,
+        [FromBody] AssignPermissionToRoleRequest request,
+        [FromServices] IValidator<AssignPermissionToRoleRequest> validator,
         CancellationToken cancellationToken)
     {
         if (await validator.ToBadRequestAsync(request, cancellationToken) is { } badRequest)

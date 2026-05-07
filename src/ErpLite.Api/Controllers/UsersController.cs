@@ -14,8 +14,8 @@ public sealed class UsersController(IUserService userService) : ControllerBase
 {
     [HttpPost]
     public async Task<ActionResult<UserResponse>> Register(
-        RegisterUserRequest request,
-        IValidator<RegisterUserRequest> validator,
+        [FromBody] RegisterUserRequest request,
+        [FromServices] IValidator<RegisterUserRequest> validator,
         CancellationToken cancellationToken)
     {
         if (await validator.ToBadRequestAsync(request, cancellationToken) is { } badRequest)
@@ -30,8 +30,8 @@ public sealed class UsersController(IUserService userService) : ControllerBase
     [HttpPost("{id:guid}/roles")]
     public async Task<IActionResult> AssignRole(
         Guid id,
-        AssignRoleToUserRequest request,
-        IValidator<AssignRoleToUserRequest> validator,
+        [FromBody] AssignRoleToUserRequest request,
+        [FromServices] IValidator<AssignRoleToUserRequest> validator,
         CancellationToken cancellationToken)
     {
         if (await validator.ToBadRequestAsync(request, cancellationToken) is { } badRequest)

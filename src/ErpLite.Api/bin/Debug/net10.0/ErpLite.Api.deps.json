@@ -11,7 +11,8 @@
           "ErpLite.Application": "1.0.0",
           "ErpLite.Infrastructure": "1.0.0",
           "Microsoft.AspNetCore.OpenApi": "10.0.0",
-          "Microsoft.EntityFrameworkCore.Design": "10.0.7"
+          "Microsoft.EntityFrameworkCore.Design": "10.0.7",
+          "Scalar.AspNetCore": "2.14.11"
         },
         "runtime": {
           "ErpLite.Api.dll": {}
@@ -523,6 +524,14 @@
           }
         }
       },
+      "Scalar.AspNetCore/2.14.11": {
+        "runtime": {
+          "lib/net10.0/Scalar.AspNetCore.dll": {
+            "assemblyVersion": "2.14.11.0",
+            "fileVersion": "2.14.11.0"
+          }
+        }
+      },
       "System.CodeDom/6.0.0": {
         "runtime": {
           "lib/net6.0/System.CodeDom.dll": {
@@ -842,6 +851,13 @@
       "sha512": "sha512-E2+uSWxSB8LdsUVwPaqRWOcGOP92biry2JEwc0KJMdLJF+aZdczeIdEXVwEyv4nSVMQJH0o8tLhyAMiR6VF0lw==",
       "path": "npgsql.entityframeworkcore.postgresql/10.0.0",
       "hashPath": "npgsql.entityframeworkcore.postgresql.10.0.0.nupkg.sha512"
+    },
+    "Scalar.AspNetCore/2.14.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-EthfC0++GjWX5JB84OUTsNlzRMr8v6zGinx8i2msKWitAkvGbvjBz7ET9XoUis4Z3M+iH6jIJ66uUGzZqmrSGg==",
+      "path": "scalar.aspnetcore/2.14.11",
+      "hashPath": "scalar.aspnetcore.2.14.11.nupkg.sha512"
     },
     "System.CodeDom/6.0.0": {
       "type": "package",

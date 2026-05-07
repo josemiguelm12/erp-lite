@@ -14,8 +14,8 @@ public sealed class AuthController(IAuthService authService) : ControllerBase
 {
     [HttpPost("register")]
     public async Task<ActionResult<AuthResponse>> Register(
-        RegisterTenantRequest request,
-        IValidator<RegisterTenantRequest> validator,
+        [FromBody] RegisterTenantRequest request,
+        [FromServices] IValidator<RegisterTenantRequest> validator,
         CancellationToken cancellationToken)
     {
         if (await validator.ToBadRequestAsync(request, cancellationToken) is { } badRequest)
@@ -29,8 +29,8 @@ public sealed class AuthController(IAuthService authService) : ControllerBase
 
     [HttpPost("login")]
     public async Task<ActionResult<AuthResponse>> Login(
-        LoginRequest request,
-        IValidator<LoginRequest> validator,
+        [FromBody] LoginRequest request,
+        [FromServices] IValidator<LoginRequest> validator,
         CancellationToken cancellationToken)
     {
         if (await validator.ToBadRequestAsync(request, cancellationToken) is { } badRequest)
