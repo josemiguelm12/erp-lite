@@ -9,11 +9,24 @@ public sealed class AuthService(
     IRepository<Tenant> tenants,
     IUserRepository users,
     IRoleRepository roles,
+    IRepository<Permission> permissions,
     IRepository<RefreshToken> refreshTokens,
     IPasswordHasher passwordHasher,
     IJwtTokenService jwtTokenService,
     IUnitOfWork unitOfWork) : IAuthService
 {
+    private static readonly string[] OwnerPermissions =
+    [
+        "customers.read",
+        "customers.create",
+        "customers.update",
+        "customers.delete",
+        "products.read",
+        "products.create",
+        "products.update",
+        "products.delete"
+    ];
+
     public async Task<Result<AuthResponse>> RegisterTenantAsync(RegisterTenantRequest request, CancellationToken cancellationToken = default)
     {
         var normalizedEmail = request.OwnerEmail.Trim().ToLowerInvariant();
@@ -39,6 +52,18 @@ public sealed class AuthService(
             Name = "Owner",
             TenantId = tenant.Id
         };
+
+        foreach (var permissionName in OwnerPermissions)
+        {
+            var permission = await permissions.FirstOrDefaultAsync(x => x.Name == permissionName, cancellationToken);
+            if (permission is null)
+            {
+                permission = new Permission { Name = permissionName };
+                await permissions.AddAsync(permission, cancellationToken);
+            }
+
+            ownerRole.Permissions.Add(permission);
+        }
 
         var user = new User
         {
