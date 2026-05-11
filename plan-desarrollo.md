@@ -53,7 +53,7 @@ src/
 └── ErpLite.Infrastructure
 
 
-### Capas
+### Capa
 
 - **API** → Controllers, Middlewares
 - **Application** → UseCases, Services, DTOs

@@ -1,12 +1,17 @@
 {
   "version": 2,
-  "dgSpecHash": "QvTtmK7jl90=",
-  "success": true,
+  "dgSpecHash": "HDcfp6qPWHw=",
+  "success": false,
   "projectFilePath": "C:\\projects\\asp.net y angular\\erp-lite\\src\\ErpLite.Application\\ErpLite.Application.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\moquete.jose\\.nuget\\packages\\fluentvalidation\\12.0.0\\fluentvalidation.12.0.0.nupkg.sha512",
-    "C:\\Users\\moquete.jose\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\12.0.0\\fluentvalidation.dependencyinjectionextensions.12.0.0.nupkg.sha512",
-    "C:\\Users\\moquete.jose\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\2.1.0\\microsoft.extensions.dependencyinjection.abstractions.2.1.0.nupkg.sha512"
-  ],
-  "logs": []
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1301",
+      "level": "Error",
+      "message": "No se puede cargar el índice de servicio para el origen https://api.nuget.org/v3/index.json.\r\n  The SSL connection could not be established, see inner exception.\r\n  Authentication failed, see inner exception.\r\n  No hay credenciales disponibles en el paquete de seguridad",
+      "projectPath": "C:\\projects\\asp.net y angular\\erp-lite\\src\\ErpLite.Application\\ErpLite.Application.csproj",
+      "filePath": "C:\\projects\\asp.net y angular\\erp-lite\\src\\ErpLite.Application\\ErpLite.Application.csproj",
+      "targetGraphs": []
+    }
+  ]
 }
