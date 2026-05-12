@@ -89,6 +89,8 @@ Thumbs.db
 # ------------------------------------------------------------
 .codex/sessions/
 .codex/logs/
+database_structure.md
+plan-desarrollo.md
 
 # ------------------------------------------------------------
 # Docker (por si se agrega más adelante)
