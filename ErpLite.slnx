@@ -5,4 +5,10 @@
     <Project Path="src/ErpLite.Domain/ErpLite.Domain.csproj" />
     <Project Path="src/ErpLite.Infrastructure/ErpLite.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ErpLite.Api.IntegrationTests/ErpLite.Api.IntegrationTests.csproj" />
+    <Project Path="tests/ErpLite.Application.Tests/ErpLite.Application.Tests.csproj" />
+    <Project Path="tests/ErpLite.Domain.Tests/ErpLite.Domain.Tests.csproj" />
+    <Project Path="tests/ErpLite.Infrastructure.Tests/ErpLite.Infrastructure.Tests.csproj" />
+  </Folder>
 </Solution>

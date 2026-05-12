@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "nxwiI7uq8zs=",
+  "dgSpecHash": "etFmqmwjp7s=",
   "success": true,
   "projectFilePath": "C:\\projects\\asp.net y angular\\erp-lite\\tests\\ErpLite.Domain.Tests\\ErpLite.Domain.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\moquete.jose\\.nuget\\packages\\coverlet.collector\\6.0.4\\coverlet.collector.6.0.4.nupkg.sha512",
+    "C:\\Users\\moquete.jose\\.nuget\\packages\\fluentassertions\\8.3.0\\fluentassertions.8.3.0.nupkg.sha512",
     "C:\\Users\\moquete.jose\\.nuget\\packages\\microsoft.codecoverage\\17.14.1\\microsoft.codecoverage.17.14.1.nupkg.sha512",
     "C:\\Users\\moquete.jose\\.nuget\\packages\\microsoft.net.test.sdk\\17.14.1\\microsoft.net.test.sdk.17.14.1.nupkg.sha512",
     "C:\\Users\\moquete.jose\\.nuget\\packages\\microsoft.testplatform.objectmodel\\17.14.1\\microsoft.testplatform.objectmodel.17.14.1.nupkg.sha512",

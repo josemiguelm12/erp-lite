@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ErpLite.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c5aba74dcffe5b1ff73908bf08e0570406ddccb7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c2150cf8267244ffb4b8233421caaccdff401781")]
 [assembly: System.Reflection.AssemblyProductAttribute("ErpLite.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ErpLite.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

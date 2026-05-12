@@ -8,7 +8,7 @@
     "net10.0": []
   },
   "packageFolders": {
-    "C:\\Users\\CodexSandboxOffline\\.nuget\\packages\\": {},
+    "C:\\Users\\moquete.jose\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
@@ -17,7 +17,7 @@
       "projectUniqueName": "C:\\projects\\asp.net y angular\\erp-lite\\src\\ErpLite.Domain\\ErpLite.Domain.csproj",
       "projectName": "ErpLite.Domain",
       "projectPath": "C:\\projects\\asp.net y angular\\erp-lite\\src\\ErpLite.Domain\\ErpLite.Domain.csproj",
-      "packagesPath": "C:\\Users\\CodexSandboxOffline\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\moquete.jose\\.nuget\\packages\\",
       "outputPath": "C:\\projects\\asp.net y angular\\erp-lite\\src\\ErpLite.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
