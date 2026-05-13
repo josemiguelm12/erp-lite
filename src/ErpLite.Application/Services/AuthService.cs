@@ -24,7 +24,14 @@ public sealed class AuthService(
         "products.read",
         "products.create",
         "products.update",
-        "products.delete"
+        "products.delete",
+        "invoices.read",
+        "invoices.create",
+        "invoices.update",
+        "invoices.delete",
+        "payments.read",
+        "payments.create",
+        "payments.delete"
     ];
 
     public async Task<Result<AuthResponse>> RegisterTenantAsync(RegisterTenantRequest request, CancellationToken cancellationToken = default)

@@ -11,4 +11,5 @@ public sealed class Product : AuditableEntity, ITenantScoped
     public int Stock { get; set; }
 
     public Tenant Tenant { get; set; } = null!;
+    public ICollection<InvoiceItem> InvoiceItems { get; set; } = new HashSet<InvoiceItem>();
 }

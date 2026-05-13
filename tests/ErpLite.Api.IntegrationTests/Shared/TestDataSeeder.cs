@@ -17,13 +17,22 @@ public static class TestDataSeeder
         "products.read",
         "products.create",
         "products.update",
-        "products.delete"
+        "products.delete",
+        "invoices.read",
+        "invoices.create",
+        "invoices.update",
+        "invoices.delete",
+        "payments.read",
+        "payments.create",
+        "payments.delete"
     ];
 
     private static readonly string[] ReadOnlyPermissions =
     [
         "customers.read",
-        "products.read"
+        "products.read",
+        "invoices.read",
+        "payments.read"
     ];
 
     public static async Task<TestSeedData> SeedAsync(IServiceProvider serviceProvider)

@@ -11,4 +11,5 @@ public sealed class Customer : AuditableEntity, ITenantScoped
     public string? Address { get; set; }
 
     public Tenant Tenant { get; set; } = null!;
+    public ICollection<Invoice> Invoices { get; set; } = new HashSet<Invoice>();
 }
