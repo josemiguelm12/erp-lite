@@ -1,28 +1,32 @@
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using ErpLite.Application.DTOs;
+using ErpLite.Application.Interfaces;
+using ErpLite.Domain.Entities;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ErpLite.Api.IntegrationTests.Shared;
 
 public static class AuthTestHelper
 {
     public static async Task<string> GetAccessTokenAsync(
-        HttpClient client,
-        string email,
-        string password,
+        CustomWebApplicationFactory factory,
+        SeededUser user,
         CancellationToken cancellationToken = default)
     {
-        using var response = await client.PostAsJsonAsync(
-            "/api/auth/login",
-            new LoginRequest(email, password),
-            cancellationToken);
+        return await factory.ExecuteScopeAsync(async serviceProvider =>
+        {
+            var users = serviceProvider.GetRequiredService<IUserRepository>();
+            var tokenService = serviceProvider.GetRequiredService<IJwtTokenService>();
 
-        response.EnsureSuccessStatusCode();
+            var dbUser = await users.GetByEmailWithRolesAsync(user.Email, cancellationToken)
+                ?? throw new InvalidOperationException($"Seeded user '{user.Email}' was not found.");
 
-        var payload = await response.Content.ReadFromJsonAsync<AuthResponse>(cancellationToken: cancellationToken)
-            ?? throw new InvalidOperationException("Login response payload was empty.");
+            var roleNames = dbUser.Roles
+                .Select(role => role.Name)
+                .OrderBy(roleName => roleName)
+                .ToArray();
 
-        return payload.AccessToken;
+            return tokenService.CreateAccessToken(dbUser, roleNames).AccessToken;
+        });
     }
 
     public static async Task<HttpClient> CreateAuthenticatedClientAsync(
@@ -31,7 +35,7 @@ public static class AuthTestHelper
         CancellationToken cancellationToken = default)
     {
         var client = factory.CreateApiClient();
-        var accessToken = await GetAccessTokenAsync(client, user.Email, user.Password, cancellationToken);
+        var accessToken = await GetAccessTokenAsync(factory, user, cancellationToken);
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         return client;
     }

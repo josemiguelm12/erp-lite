@@ -50,10 +50,11 @@ public static class TestDataSeeder
             Slug = "secondary-tenant"
         };
 
-        var permissions = FullPermissions
-            .Distinct()
-            .Select(name => new Permission { Name = name })
-            .ToDictionary(permission => permission.Name, StringComparer.Ordinal);
+        await dbContext.Tenants.AddRangeAsync(primaryTenant, secondaryTenant);
+        await dbContext.SaveChangesAsync();
+
+        var permissions = await dbContext.Permissions
+            .ToDictionaryAsync(permission => permission.Name, StringComparer.Ordinal);
 
         var primaryOwnerRole = CreateRole(
             Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaa1"),
@@ -102,6 +103,14 @@ public static class TestDataSeeder
             TestUsers.DefaultPassword,
             passwordHasher,
             secondaryOwnerRole);
+
+        var restrictedUser = CreateUser(
+            Guid.Parse("10000000-0000-0000-0000-000000000003"),
+            primaryTenant.Id,
+            "Restricted User",
+            "restricted@primary.test",
+            TestUsers.DefaultPassword,
+            passwordHasher);
 
         var activeCustomer = new Customer
         {
@@ -159,10 +168,8 @@ public static class TestDataSeeder
             Stock = 9
         };
 
-        await dbContext.Tenants.AddRangeAsync(primaryTenant, secondaryTenant);
-        await dbContext.Permissions.AddRangeAsync(permissions.Values);
         await dbContext.Roles.AddRangeAsync(primaryOwnerRole, primaryReaderRole, secondaryOwnerRole);
-        await dbContext.Users.AddRangeAsync(primaryOwner, primaryReader, secondaryOwner);
+        await dbContext.Users.AddRangeAsync(primaryOwner, primaryReader, secondaryOwner, restrictedUser);
         await dbContext.Customers.AddRangeAsync(activeCustomer, deletedCustomer, crossTenantCustomer);
         await dbContext.Products.AddRangeAsync(activeProduct, deletedProduct, crossTenantProduct);
         await dbContext.SaveChangesAsync();
@@ -171,6 +178,7 @@ public static class TestDataSeeder
             new SeededUser(primaryOwner.Id, primaryOwner.TenantId, primaryOwner.Email, TestUsers.DefaultPassword),
             new SeededUser(primaryReader.Id, primaryReader.TenantId, primaryReader.Email, TestUsers.DefaultPassword),
             new SeededUser(secondaryOwner.Id, secondaryOwner.TenantId, secondaryOwner.Email, TestUsers.DefaultPassword),
+            new SeededUser(restrictedUser.Id, restrictedUser.TenantId, restrictedUser.Email, TestUsers.DefaultPassword),
             activeCustomer.Id,
             deletedCustomer.Id,
             crossTenantCustomer.Id,
@@ -232,11 +240,13 @@ public static class TestDataSeeder
         var primaryOwner = await dbContext.Users.SingleAsync(x => x.Email == "owner@primary.test");
         var primaryReader = await dbContext.Users.SingleAsync(x => x.Email == "reader@primary.test");
         var secondaryOwner = await dbContext.Users.SingleAsync(x => x.Email == "owner@secondary.test");
+        var restrictedUser = await dbContext.Users.SingleAsync(x => x.Email == "restricted@primary.test");
 
         return new TestSeedData(
             new SeededUser(primaryOwner.Id, primaryOwner.TenantId, primaryOwner.Email, TestUsers.DefaultPassword),
             new SeededUser(primaryReader.Id, primaryReader.TenantId, primaryReader.Email, TestUsers.DefaultPassword),
             new SeededUser(secondaryOwner.Id, secondaryOwner.TenantId, secondaryOwner.Email, TestUsers.DefaultPassword),
+            new SeededUser(restrictedUser.Id, restrictedUser.TenantId, restrictedUser.Email, TestUsers.DefaultPassword),
             Guid.Parse("30000000-0000-0000-0000-000000000001"),
             Guid.Parse("30000000-0000-0000-0000-000000000002"),
             Guid.Parse("30000000-0000-0000-0000-000000000003"),
@@ -257,6 +267,7 @@ public sealed record TestSeedData(
     SeededUser PrimaryOwner,
     SeededUser PrimaryReader,
     SeededUser SecondaryOwner,
+    SeededUser RestrictedUser,
     Guid ActiveCustomerId,
     Guid DeletedCustomerId,
     Guid CrossTenantCustomerId,
