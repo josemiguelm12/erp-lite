@@ -1,5 +1,6 @@
 using ErpLite.Application.Interfaces;
 using ErpLite.Domain.Entities;
+using ErpLite.Domain.Enums;
 using ErpLite.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -177,10 +178,64 @@ public static class TestDataSeeder
             Stock = 9
         };
 
+        var draftInvoice = CreateInvoice(
+            Guid.Parse("50000000-0000-0000-0000-000000000001"),
+            primaryTenant.Id,
+            activeCustomer.Id,
+            activeProduct.Id,
+            "INV-PRIMARY-DRAFT",
+            InvoiceStatus.Draft);
+
+        var sentInvoice = CreateInvoice(
+            Guid.Parse("50000000-0000-0000-0000-000000000002"),
+            primaryTenant.Id,
+            activeCustomer.Id,
+            activeProduct.Id,
+            "INV-PRIMARY-SENT",
+            InvoiceStatus.Sent);
+
+        var paidInvoice = CreateInvoice(
+            Guid.Parse("50000000-0000-0000-0000-000000000003"),
+            primaryTenant.Id,
+            activeCustomer.Id,
+            activeProduct.Id,
+            "INV-PRIMARY-PAID",
+            InvoiceStatus.Paid);
+
+        var cancelledInvoice = CreateInvoice(
+            Guid.Parse("50000000-0000-0000-0000-000000000004"),
+            primaryTenant.Id,
+            activeCustomer.Id,
+            activeProduct.Id,
+            "INV-PRIMARY-CANCELLED",
+            InvoiceStatus.Cancelled);
+
+        var crossTenantInvoice = CreateInvoice(
+            Guid.Parse("50000000-0000-0000-0000-000000000005"),
+            secondaryTenant.Id,
+            crossTenantCustomer.Id,
+            crossTenantProduct.Id,
+            "INV-SECONDARY-DRAFT",
+            InvoiceStatus.Draft);
+
+        var activePayment = new Payment
+        {
+            Id = Guid.Parse("60000000-0000-0000-0000-000000000001"),
+            TenantId = primaryTenant.Id,
+            InvoiceId = sentInvoice.Id,
+            Amount = 10m,
+            PaymentDate = DateTime.UtcNow.Date,
+            Method = PaymentMethod.Cash,
+            Reference = "PAY-SEED-001",
+            Notes = "Seeded payment"
+        };
+
         await dbContext.Roles.AddRangeAsync(primaryOwnerRole, primaryReaderRole, secondaryOwnerRole);
         await dbContext.Users.AddRangeAsync(primaryOwner, primaryReader, secondaryOwner, restrictedUser);
         await dbContext.Customers.AddRangeAsync(activeCustomer, deletedCustomer, crossTenantCustomer);
         await dbContext.Products.AddRangeAsync(activeProduct, deletedProduct, crossTenantProduct);
+        await dbContext.Invoices.AddRangeAsync(draftInvoice, sentInvoice, paidInvoice, cancelledInvoice, crossTenantInvoice);
+        await dbContext.Payments.AddAsync(activePayment);
         await dbContext.SaveChangesAsync();
 
         return new TestSeedData(
@@ -193,7 +248,13 @@ public static class TestDataSeeder
             crossTenantCustomer.Id,
             activeProduct.Id,
             deletedProduct.Id,
-            crossTenantProduct.Id);
+            crossTenantProduct.Id,
+            draftInvoice.Id,
+            sentInvoice.Id,
+            paidInvoice.Id,
+            cancelledInvoice.Id,
+            crossTenantInvoice.Id,
+            activePayment.Id);
     }
 
     private static Role CreateRole(
@@ -244,6 +305,49 @@ public static class TestDataSeeder
         return user;
     }
 
+    private static Invoice CreateInvoice(
+        Guid id,
+        Guid tenantId,
+        Guid customerId,
+        Guid productId,
+        string invoiceNumber,
+        InvoiceStatus status)
+    {
+        const decimal quantity = 2m;
+        const decimal unitPrice = 10m;
+        const decimal taxRate = 10m;
+        const decimal subtotal = quantity * unitPrice;
+        const decimal taxAmount = subtotal * taxRate / 100m;
+
+        var invoice = new Invoice
+        {
+            Id = id,
+            TenantId = tenantId,
+            CustomerId = customerId,
+            InvoiceNumber = invoiceNumber,
+            Status = status,
+            IssueDate = DateTime.UtcNow.Date,
+            DueDate = DateTime.UtcNow.Date.AddDays(30),
+            Subtotal = subtotal,
+            TaxRate = taxRate,
+            TaxAmount = taxAmount,
+            Total = subtotal + taxAmount
+        };
+
+        invoice.Items.Add(new InvoiceItem
+        {
+            Id = Guid.NewGuid(),
+            InvoiceId = invoice.Id,
+            ProductId = productId,
+            Description = $"{invoiceNumber} item",
+            Quantity = quantity,
+            UnitPrice = unitPrice,
+            Total = subtotal
+        });
+
+        return invoice;
+    }
+
     private static async Task<TestSeedData> LoadExistingSeedDataAsync(ErpLiteDbContext dbContext)
     {
         var primaryOwner = await dbContext.Users.SingleAsync(x => x.Email == "owner@primary.test");
@@ -261,7 +365,13 @@ public static class TestDataSeeder
             Guid.Parse("30000000-0000-0000-0000-000000000003"),
             Guid.Parse("40000000-0000-0000-0000-000000000001"),
             Guid.Parse("40000000-0000-0000-0000-000000000002"),
-            Guid.Parse("40000000-0000-0000-0000-000000000003"));
+            Guid.Parse("40000000-0000-0000-0000-000000000003"),
+            Guid.Parse("50000000-0000-0000-0000-000000000001"),
+            Guid.Parse("50000000-0000-0000-0000-000000000002"),
+            Guid.Parse("50000000-0000-0000-0000-000000000003"),
+            Guid.Parse("50000000-0000-0000-0000-000000000004"),
+            Guid.Parse("50000000-0000-0000-0000-000000000005"),
+            Guid.Parse("60000000-0000-0000-0000-000000000001"));
     }
 }
 
@@ -282,4 +392,10 @@ public sealed record TestSeedData(
     Guid CrossTenantCustomerId,
     Guid ActiveProductId,
     Guid DeletedProductId,
-    Guid CrossTenantProductId);
+    Guid CrossTenantProductId,
+    Guid DraftInvoiceId,
+    Guid SentInvoiceId,
+    Guid PaidInvoiceId,
+    Guid CancelledInvoiceId,
+    Guid CrossTenantInvoiceId,
+    Guid ActivePaymentId);

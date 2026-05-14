@@ -62,7 +62,7 @@ public sealed class InvoiceService(
             return OperationResult.Forbidden("Permission invoices.update is required.");
         }
 
-        var invoice = await invoices.GetByIdWithItemsAsync(id, cancellationToken);
+        var invoice = await invoices.GetByIdReadOnlyAsync(id, cancellationToken);
         if (invoice is null)
         {
             return OperationResult.NotFound("Invoice not found.");
@@ -79,15 +79,39 @@ public sealed class InvoiceService(
             return OperationResult.ValidationError(validationError);
         }
 
-        invoice.CustomerId = request.CustomerId;
-        invoice.InvoiceNumber = request.InvoiceNumber.Trim();
-        invoice.IssueDate = request.IssueDate;
-        invoice.DueDate = request.DueDate;
-        invoice.TaxRate = request.TaxRate;
+        var updatedInvoice = new Invoice
+        {
+            Id = invoice.Id,
+            TenantId = invoice.TenantId,
+            CustomerId = request.CustomerId,
+            InvoiceNumber = request.InvoiceNumber.Trim(),
+            Status = invoice.Status,
+            IssueDate = request.IssueDate,
+            DueDate = request.DueDate,
+            TaxRate = request.TaxRate
+        };
 
-        invoice.Items.Clear();
-        ApplyItemsAndTotals(invoice, request.Items);
+        await invoices.DeleteItemsByInvoiceIdAsync(invoice.Id, cancellationToken);
+        ApplyItemsAndTotals(updatedInvoice, request.Items);
 
+        var updated = await invoices.UpdateDetailsAsync(
+            updatedInvoice.Id,
+            updatedInvoice.CustomerId,
+            updatedInvoice.InvoiceNumber,
+            updatedInvoice.IssueDate,
+            updatedInvoice.DueDate,
+            updatedInvoice.Subtotal,
+            updatedInvoice.TaxRate,
+            updatedInvoice.TaxAmount,
+            updatedInvoice.Total,
+            cancellationToken);
+
+        if (!updated)
+        {
+            return OperationResult.NotFound("Invoice not found.");
+        }
+
+        await invoices.AddItemsAsync(updatedInvoice.Items, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
         return OperationResult.Success();
     }
@@ -212,6 +236,7 @@ public sealed class InvoiceService(
             var total = RoundMoney(itemRequest.Quantity * itemRequest.UnitPrice);
             invoice.Items.Add(new InvoiceItem
             {
+                InvoiceId = invoice.Id,
                 ProductId = itemRequest.ProductId,
                 Description = itemRequest.Description.Trim(),
                 Quantity = itemRequest.Quantity,
