@@ -106,6 +106,34 @@ public sealed class AuthService(
         return Result<AuthResponse>.Success(response);
     }
 
+    public async Task<Result<AuthResponse>> RefreshTokenAsync(RefreshTokenRequest request, CancellationToken cancellationToken = default)
+    {
+        var storedRefreshToken = await refreshTokens.FirstOrDefaultAsync(
+            x => x.Token == request.RefreshToken,
+            cancellationToken);
+
+        if (storedRefreshToken is null ||
+            storedRefreshToken.IsRevoked ||
+            storedRefreshToken.ExpiresAt <= DateTime.UtcNow)
+        {
+            return Result<AuthResponse>.Failure("Invalid refresh token.");
+        }
+
+        var user = await users.GetByIdWithRolesForAuthenticationAsync(storedRefreshToken.UserId, cancellationToken);
+        if (user is null || user.IsDeleted || !user.IsActive)
+        {
+            return Result<AuthResponse>.Failure("Invalid refresh token.");
+        }
+
+        storedRefreshToken.IsRevoked = true;
+
+        var roleNames = user.Roles.Select(x => x.Name).OrderBy(x => x).ToArray();
+        var response = await CreateAuthResponseAsync(user, roleNames, cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Result<AuthResponse>.Success(response);
+    }
+
     private async Task<AuthResponse> CreateAuthResponseAsync(User user, IReadOnlyCollection<string> roleNames, CancellationToken cancellationToken)
     {
         var accessToken = jwtTokenService.CreateAccessToken(user, roleNames);

@@ -9,6 +9,8 @@ public sealed record RegisterTenantRequest(
 
 public sealed record LoginRequest(string Email, string Password);
 
+public sealed record RefreshTokenRequest(string RefreshToken);
+
 public sealed record AuthResponse(
     Guid UserId,
     Guid TenantId,

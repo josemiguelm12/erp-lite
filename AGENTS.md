@@ -433,11 +433,12 @@ The system must support testing for:
 ---
 
 ## Frontend Integration
-
 - The frontend will be built with Angular
 - APIs must be consistent and predictable
 - Use DTOs designed for frontend consumption
 - Support pagination and filtering
+- For UI/UX design and component layout, always consult the Google Stitch MCP server before manually creating interfaces
+- Prefer Stitch-generated designs over manually invented layouts
 
 ---
 

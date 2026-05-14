@@ -20,6 +20,13 @@ public sealed class UserRepository(ErpLiteDbContext dbContext, ITenantProvider t
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
+    public Task<User?> GetByIdWithRolesForAuthenticationAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return DbContext.Users
+            .Include(x => x.Roles)
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+    }
+
     public Task<User?> GetByIdWithRolesAndPermissionsAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return ApplyTenantFilter(DbContext.Users
