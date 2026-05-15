@@ -85,7 +85,9 @@ public sealed class AuthService(
         await roles.AddAsync(ownerRole, cancellationToken);
         await users.AddAsync(user, cancellationToken);
 
-        var authResponse = await CreateAuthResponseAsync(user, ["Owner"], cancellationToken);
+        var roleNames = new[] { ownerRole.Name };
+        var effectivePermissions = GetEffectivePermissions(user);
+        var authResponse = await CreateAuthResponseAsync(user, tenant.Name, roleNames, effectivePermissions, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result<AuthResponse>.Success(authResponse);
@@ -93,14 +95,16 @@ public sealed class AuthService(
 
     public async Task<Result<AuthResponse>> LoginAsync(LoginRequest request, CancellationToken cancellationToken = default)
     {
-        var user = await users.GetByEmailWithRolesAsync(request.Email.Trim().ToLowerInvariant(), cancellationToken);
+        var user = await users.GetByEmailWithRolesAndPermissionsAsync(request.Email.Trim().ToLowerInvariant(), cancellationToken);
         if (user is null || user.IsDeleted || !user.IsActive || !passwordHasher.Verify(request.Password, user.PasswordHash))
         {
             return Result<AuthResponse>.Failure("Invalid credentials.");
         }
 
         var roleNames = user.Roles.Select(x => x.Name).OrderBy(x => x).ToArray();
-        var response = await CreateAuthResponseAsync(user, roleNames, cancellationToken);
+        var effectivePermissions = GetEffectivePermissions(user);
+        var tenantName = await GetTenantNameAsync(user.TenantId, cancellationToken);
+        var response = await CreateAuthResponseAsync(user, tenantName, roleNames, effectivePermissions, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result<AuthResponse>.Success(response);
@@ -128,13 +132,20 @@ public sealed class AuthService(
         storedRefreshToken.IsRevoked = true;
 
         var roleNames = user.Roles.Select(x => x.Name).OrderBy(x => x).ToArray();
-        var response = await CreateAuthResponseAsync(user, roleNames, cancellationToken);
+        var effectivePermissions = GetEffectivePermissions(user);
+        var tenantName = await GetTenantNameAsync(user.TenantId, cancellationToken);
+        var response = await CreateAuthResponseAsync(user, tenantName, roleNames, effectivePermissions, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result<AuthResponse>.Success(response);
     }
 
-    private async Task<AuthResponse> CreateAuthResponseAsync(User user, IReadOnlyCollection<string> roleNames, CancellationToken cancellationToken)
+    private async Task<AuthResponse> CreateAuthResponseAsync(
+        User user,
+        string tenantName,
+        IReadOnlyCollection<string> roleNames,
+        IReadOnlyCollection<string> permissions,
+        CancellationToken cancellationToken)
     {
         var accessToken = jwtTokenService.CreateAccessToken(user, roleNames);
         var refreshToken = new RefreshToken
@@ -149,12 +160,30 @@ public sealed class AuthService(
         return new AuthResponse(
             user.Id,
             user.TenantId,
+            tenantName,
             user.FullName,
             user.Email,
             roleNames,
+            permissions,
             accessToken.AccessToken,
             refreshToken.Token,
             accessToken.ExpiresAt,
             refreshToken.ExpiresAt);
+    }
+
+    private async Task<string> GetTenantNameAsync(Guid tenantId, CancellationToken cancellationToken)
+    {
+        var tenant = await tenants.GetByIdAsync(tenantId, cancellationToken);
+        return tenant?.Name ?? string.Empty;
+    }
+
+    private static string[] GetEffectivePermissions(User user)
+    {
+        return user.Roles
+            .SelectMany(x => x.Permissions)
+            .Select(x => x.Name)
+            .Distinct(StringComparer.Ordinal)
+            .OrderBy(x => x, StringComparer.Ordinal)
+            .ToArray();
     }
 }

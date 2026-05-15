@@ -13,9 +13,66 @@ namespace ErpLite.Api.IntegrationTests.Auth;
 [Collection(ApiIntegrationTestCollection.Name)]
 public sealed class AuthEndpointsTests(CustomWebApplicationFactory factory) : IAsyncLifetime
 {
+    private static readonly string[] FullPermissions =
+    [
+        "customers.create",
+        "customers.delete",
+        "customers.read",
+        "customers.update",
+        "invoices.create",
+        "invoices.delete",
+        "invoices.read",
+        "invoices.update",
+        "payments.create",
+        "payments.delete",
+        "payments.read",
+        "products.create",
+        "products.delete",
+        "products.read",
+        "products.update"
+    ];
+
     public Task InitializeAsync() => factory.ResetDatabaseAsync();
 
     public Task DisposeAsync() => Task.CompletedTask;
+
+    [Fact]
+    public async Task Login_WithValidCredentials_ReturnsTenantNameAndPermissions()
+    {
+        var client = factory.CreateApiClient();
+
+        var response = await client.PostAsJsonAsync(
+            "/api/auth/login",
+            new LoginRequest(factory.SeedData.PrimaryOwner.Email, factory.SeedData.PrimaryOwner.Password));
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var payload = await response.Content.ReadFromJsonAsync<AuthResponse>();
+        payload.Should().NotBeNull();
+        payload!.TenantName.Should().Be("Primary Tenant");
+        payload.Roles.Should().BeEquivalentTo(["Owner"]);
+        payload.Permissions.Should().BeEquivalentTo(FullPermissions);
+    }
+
+    [Fact]
+    public async Task Register_WithValidRequest_ReturnsTenantNameAndPermissions()
+    {
+        var client = factory.CreateApiClient();
+        var request = new RegisterTenantRequest(
+            "Acme HQ",
+            "acme-hq",
+            "Acme Owner",
+            "owner@acme.test",
+            TestUsers.DefaultPassword);
+
+        var response = await client.PostAsJsonAsync("/api/auth/register", request);
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var payload = await response.Content.ReadFromJsonAsync<AuthResponse>();
+        payload.Should().NotBeNull();
+        payload!.TenantName.Should().Be(request.Name);
+        payload.Roles.Should().BeEquivalentTo(["Owner"]);
+        payload.Permissions.Should().BeEquivalentTo(FullPermissions);
+    }
 
     [Fact]
     public async Task Refresh_WithValidToken_ReturnsOkWithRotatedTokens()
@@ -30,6 +87,8 @@ public sealed class AuthEndpointsTests(CustomWebApplicationFactory factory) : IA
         payload.Should().NotBeNull();
         payload!.UserId.Should().Be(login.UserId);
         payload.TenantId.Should().Be(login.TenantId);
+        payload.TenantName.Should().Be("Primary Tenant");
+        payload.Permissions.Should().BeEquivalentTo(FullPermissions);
         payload.AccessToken.Should().NotBeNullOrWhiteSpace();
         payload.RefreshToken.Should().NotBeNullOrWhiteSpace();
         payload.RefreshToken.Should().NotBe(login.RefreshToken);

@@ -14,9 +14,11 @@ public sealed record RefreshTokenRequest(string RefreshToken);
 public sealed record AuthResponse(
     Guid UserId,
     Guid TenantId,
+    string TenantName,
     string FullName,
     string Email,
     IReadOnlyCollection<string> Roles,
+    IReadOnlyCollection<string> Permissions,
     string AccessToken,
     string RefreshToken,
     DateTime AccessTokenExpiresAt,

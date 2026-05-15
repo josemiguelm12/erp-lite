@@ -14,6 +14,14 @@ public sealed class UserRepository(ErpLiteDbContext dbContext, ITenantProvider t
             .FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
     }
 
+    public Task<User?> GetByEmailWithRolesAndPermissionsAsync(string email, CancellationToken cancellationToken = default)
+    {
+        return DbContext.Users
+            .Include(x => x.Roles)
+            .ThenInclude(x => x.Permissions)
+            .FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
+    }
+
     public Task<User?> GetByIdWithRolesAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return ApplyTenantFilter(DbContext.Users.Include(x => x.Roles))
@@ -24,6 +32,7 @@ public sealed class UserRepository(ErpLiteDbContext dbContext, ITenantProvider t
     {
         return DbContext.Users
             .Include(x => x.Roles)
+            .ThenInclude(x => x.Permissions)
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
